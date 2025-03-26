@@ -21,7 +21,7 @@ const Index = () => {
   // Google Analytics tracking
   useEffect(() => {
     // Track page view
-    if (window.gtag) {
+    if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'page_view', {
         page_title: 'Titder - Home',
         page_location: window.location.href,
@@ -32,7 +32,7 @@ const Index = () => {
 
   // Track profile navigation
   useEffect(() => {
-    if (window.gtag && currentProfile) {
+    if (typeof window !== 'undefined' && window.gtag && currentProfile) {
       window.gtag('event', 'view_profile', {
         profile_id: currentProfile.id,
         profile_name: currentProfile.name
