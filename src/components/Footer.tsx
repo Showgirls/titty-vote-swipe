@@ -59,7 +59,7 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
       
       <div className="flex space-x-4 mt-1">
         <a 
-          href="https://twitter.com" 
+          href="https://x.com/fkittcom" 
           target="_blank" 
           rel="noopener noreferrer"
           className="p-1 rounded-full hover:bg-secondary transition-colors"
@@ -67,7 +67,7 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
           <Twitter size={20} className="text-muted-foreground hover:text-primary" />
         </a>
         <a 
-          href="https://t.me" 
+          href="https://t.me/fkittt" 
           target="_blank" 
           rel="noopener noreferrer"
           className="p-1 rounded-full hover:bg-secondary transition-colors"
