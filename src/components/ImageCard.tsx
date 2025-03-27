@@ -96,20 +96,13 @@ const ImageCard: React.FC<ImageCardProps> = ({
         )}
         <img
           src={imageUrl}
-          alt="This hottie"
+          alt="A hottie"
           className={cn(
             "w-full h-full object-cover transition-all duration-500",
             imageLoaded ? "opacity-100" : "opacity-0",
           )}
           onLoad={() => setImageLoaded(true)}
         />
-        
-        {/* Image Caption */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent 
-                       p-6 pt-12 flex flex-col text-white">
-          <h2 className="text-2xl font-medium tracking-tight">This Hottie</h2>
-          <p className="text-sm text-white/80 mt-1">{profile.bio}</p>
-        </div>
       </div>
       
       {/* Card Footer */}

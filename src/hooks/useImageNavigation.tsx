@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import { ImageProfile, profiles } from '@/lib/imageData';
+import { ImageProfile, profiles, twitterShareText } from '@/lib/imageData';
 import { toast } from '@/components/ui/use-toast';
 
 export function useImageNavigation() {
@@ -44,22 +44,20 @@ export function useImageNavigation() {
 
   // Handle vote
   const handleVote = useCallback(() => {
-    // Create a Twitter intent URL that includes text and the image URL
-    const tweetText = encodeURIComponent(`I'm voting for this hottie on Phukk Me! Each free vote earns 10 entries to the $10,000 GIVEAWAY. Join now: https://phukk.me #fkitt $fkitt`);
-    const imageUrl = encodeURIComponent(currentProfile.image);
+    // Create a Twitter intent URL with just the text, no image URL
+    const tweetText = encodeURIComponent(twitterShareText());
     
-    // Twitter Web Intent doesn't directly support images, so we'll include the URL
-    // The user will need to manually attach the image when the Twitter compose window opens
-    window.open(`https://twitter.com/intent/tweet?text=${tweetText}&url=${imageUrl}`, '_blank');
+    // Open Twitter intent with just the text
+    window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
     
-    // Show thank you message - we'll no longer auto-hide it
+    // Show thank you message 
     setShowThankYou(true);
     toast({
       title: "Thank you for voting!",
       description: `Your vote for this hottie has been recorded. You are allowed 1 vote per account per day.`,
       duration: Infinity, // This makes the toast stay until dismissed
     });
-  }, [currentProfile]);
+  }, []);
 
   // Touch handlers for mobile swipe
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
