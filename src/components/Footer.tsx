@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface FooterProps {
   className?: string;
@@ -25,16 +26,35 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
         Each vote earns 10 entries to the $10,000 Giveaway
       </p>
       
-      <a 
-        className="inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium 
-                  bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 
-                  transition-colors duration-200 ease-in-out"
-        href="https://dexscreener.com/solana/4qqm2x2pfhu3toscaqkqxtfhtm7dmje8lgwu9kvqenh4" 
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Buy $Titcoin on DEX
-      </a>
+      <div className="flex flex-row space-x-3 w-full justify-center">
+        <Button
+          className="flex-1 max-w-36"
+          asChild
+          size="sm"
+        >
+          <a 
+            href="https://fkitt.com/token/buy" 
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            BUY $FKITT
+          </a>
+        </Button>
+        
+        <Button
+          className="flex-1 max-w-36"
+          asChild
+          size="sm"
+        >
+          <a 
+            href="https://fkitt.com" 
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            JOIN FKITT
+          </a>
+        </Button>
+      </div>
       
       <p className="text-xs text-muted-foreground/70 mt-4">
         © {new Date().getFullYear()} Phukk Me. All rights reserved.
