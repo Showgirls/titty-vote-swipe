@@ -117,6 +117,9 @@ const ImageCard: React.FC<ImageCardProps> = ({
         {showThankYou ? (
           <div className="text-center text-lg font-medium text-primary animate-scale-in">
             Thank you for voting!
+            <p className="text-sm text-muted-foreground mt-1">
+              You are allowed 1 vote per account per day.
+            </p>
           </div>
         ) : (
           <button
