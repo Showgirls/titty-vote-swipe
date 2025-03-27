@@ -76,6 +76,15 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
         </a>
       </div>
       
+      <a 
+        href="https://fkitt.com/giveaway" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-primary hover:text-primary/80 font-medium text-sm transition-colors mt-2"
+      >
+        JOIN THE $10,000 GIVEAWAY
+      </a>
+      
       <p className="text-xs text-muted-foreground/70 mt-4">
         © {new Date().getFullYear()} Phukk Me. All rights reserved.
       </p>
