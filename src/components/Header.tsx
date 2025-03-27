@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         <div className="absolute -top-2 -right-8 w-16 h-8 rounded-full bg-primary/20 blur-xl animate-pulse-soft"></div>
       </div>
       <p className="text-muted-foreground text-sm sm:text-base font-light tracking-wide mt-2">
-        Swipe for Tits, Match for Titcoin
+        Swipe for Hotties, vote for $CASH
       </p>
     </header>
   );
