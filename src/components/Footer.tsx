@@ -15,9 +15,9 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
     )}>
       <div className="flex items-center justify-center">
         <img 
-          className="w-16 h-16 object-contain transform transition-transform hover:scale-105" 
-          src="https://titder.com/images/titcoin-logo.png" 
-          alt="Titcoin Logo" 
+          className="w-28 sm:w-32 object-contain transform transition-transform hover:scale-105" 
+          src="/lovable-uploads/63336976-dd12-41f9-ba26-280abe5a6fbf.png" 
+          alt="Phukk Me Logo" 
         />
       </div>
       
@@ -37,7 +37,7 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
       </a>
       
       <p className="text-xs text-muted-foreground/70 mt-4">
-        © {new Date().getFullYear()} Titder. All rights reserved.
+        © {new Date().getFullYear()} Phukk Me. All rights reserved.
       </p>
     </footer>
   );

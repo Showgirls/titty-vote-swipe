@@ -13,12 +13,16 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       className
     )}>
       <div className="relative">
-        <h1 className="text-4xl sm:text-5xl font-light tracking-tight">
-          Titder
-        </h1>
+        <div className="flex items-center justify-center">
+          <img 
+            src="/lovable-uploads/63336976-dd12-41f9-ba26-280abe5a6fbf.png" 
+            alt="Phukk Me Logo" 
+            className="h-16 sm:h-20 object-contain"
+          />
+        </div>
         <div className="absolute -top-2 -right-8 w-16 h-8 rounded-full bg-primary/20 blur-xl animate-pulse-soft"></div>
       </div>
-      <p className="text-muted-foreground text-sm sm:text-base font-light tracking-wide">
+      <p className="text-muted-foreground text-sm sm:text-base font-light tracking-wide mt-2">
         Swipe for Tits, Match for Titcoin
       </p>
     </header>
