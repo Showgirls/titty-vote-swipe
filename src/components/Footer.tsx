@@ -2,6 +2,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Twitter, MessageCircle } from 'lucide-react';
 
 interface FooterProps {
   className?: string;
@@ -54,6 +55,25 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
             JOIN FKITT
           </a>
         </Button>
+      </div>
+      
+      <div className="flex space-x-4 mt-3">
+        <a 
+          href="https://twitter.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="p-2 rounded-full hover:bg-secondary transition-colors"
+        >
+          <Twitter size={20} className="text-muted-foreground hover:text-primary" />
+        </a>
+        <a 
+          href="https://t.me" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="p-2 rounded-full hover:bg-secondary transition-colors"
+        >
+          <MessageCircle size={20} className="text-muted-foreground hover:text-primary" />
+        </a>
       </div>
       
       <p className="text-xs text-muted-foreground/70 mt-4">
