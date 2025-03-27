@@ -45,7 +45,7 @@ const Index = () => {
       <div className="w-full max-w-4xl px-4 mx-auto flex flex-col items-center">
         <Header />
         
-        <main className="w-full flex-1 flex flex-col items-center justify-center py-12">
+        <main className="w-full flex-1 flex flex-col items-center justify-center py-6">
           <div className="w-full max-w-md mx-auto relative">
             {/* Decorative elements */}
             <div className="absolute -top-4 -left-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl"></div>
