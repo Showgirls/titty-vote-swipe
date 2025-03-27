@@ -22,7 +22,7 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
       </div>
       
       <p className="text-muted-foreground text-center max-w-md">
-        Support The BreastTek. Buy $titcoin
+        Each vote earns 10 entries to the $10,000 Giveaway
       </p>
       
       <a 
