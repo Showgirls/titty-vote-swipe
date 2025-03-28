@@ -112,8 +112,5 @@ function getRandomBio(): string {
 }
 
 export const twitterShareText = () => {
-  return `I'm voting for a hottie on Phukk Me! Each free vote earns 10 entries to the $10,000 GIVEAWAY. 
-
-Join now: https://phukk.me or join @fkittcom for info!
-#fkitt $fkitt #PhukkMe`;
+  return `I'm voting for a hottie on Phukk Me! Each free vote earns 10 entries to the $10,000 GIVEAWAY. Join now: https://phukk.me #fkitt $fkitt`;
 };

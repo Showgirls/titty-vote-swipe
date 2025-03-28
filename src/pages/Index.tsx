@@ -18,12 +18,6 @@ const Index = () => {
     showThankYou
   } = useImageNavigation();
 
-  // Debug logging
-  useEffect(() => {
-    console.log("Index page loaded");
-    console.log("Current profile:", currentProfile);
-  }, [currentProfile]);
-
   // Google Analytics tracking
   useEffect(() => {
     // Track page view
@@ -45,25 +39,6 @@ const Index = () => {
       });
     }
   }, [currentProfile]);
-
-  // Fallback content if profile isn't loaded yet
-  if (!currentProfile) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-background to-muted/30">
-        <div className="w-full max-w-4xl px-4 mx-auto flex flex-col items-center">
-          <Header />
-          <div className="flex-1 flex items-center justify-center p-8">
-            <div className="animate-pulse flex flex-col items-center">
-              <div className="h-32 w-32 bg-muted rounded-full mb-4"></div>
-              <div className="h-4 bg-muted rounded w-48 mb-2.5"></div>
-              <div className="h-3 bg-muted rounded w-40"></div>
-            </div>
-          </div>
-          <Footer />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-background to-muted/30">

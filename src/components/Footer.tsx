@@ -20,10 +20,6 @@ const Footer: React.FC<FooterProps> = ({ className }) => {
           className="w-28 sm:w-32 object-contain transform transition-transform hover:scale-105" 
           src="/lovable-uploads/63336976-dd12-41f9-ba26-280abe5a6fbf.png" 
           alt="Phukk Me Logo" 
-          onError={(e) => {
-            console.error("Error loading footer logo");
-            e.currentTarget.src = "https://fkitt.shop/logo.png";
-          }}
         />
       </div>
       
