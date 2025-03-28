@@ -1,26 +1,513 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>titty-vote-swipe</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
-
-    <meta property="og:title" content="Lovable Generated Project" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <title>Phukk Me - Hottie Voting App</title>
+    <meta name="description" content="Swipe for Hotties, vote for $CASH" />
+    
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#3b82f6',
+              secondary: '#f1f5f9',
+              background: '#fafafa',
+              foreground: '#0f1729',
+              muted: '#f1f5f9',
+              'muted-foreground': '#64748b',
+            },
+          },
+        },
+      }
+    </script>
+    
+    <style>
+      body {
+        background: linear-gradient(to bottom, #fafafa, #f1f5f9);
+        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      
+      .glass {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+      
+      .animate-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: .7;
+        }
+      }
+      
+      .image-card {
+        transition: all 0.4s ease;
+      }
+      
+      .image-card.swipe-left {
+        transform: translateX(-150%) rotate(-20deg);
+        opacity: 0;
+      }
+      
+      .image-card.swipe-right {
+        transform: translateX(150%) rotate(20deg);
+        opacity: 0;
+      }
+      
+      .thank-you-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        animation: fadeIn 0.3s ease-in;
+        z-index: 50;
+        border-radius: 0.75rem;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+    </style>
   </head>
-
   <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root" class="min-h-screen flex flex-col items-center">
+      <div class="w-full max-w-4xl px-4 mx-auto flex flex-col items-center">
+        <!-- Header -->
+        <header class="w-full py-6 px-4 flex flex-col items-center justify-center gap-2">
+          <div class="relative">
+            <div class="flex items-center justify-center">
+              <img 
+                src="phukk-me-logo.png" 
+                alt="Phukk Me Logo" 
+                class="h-16 sm:h-20 object-contain"
+                onerror="this.onerror=null; this.src='https://placehold.co/200x80?text=Phukk+Me'"
+              />
+            </div>
+            <div class="absolute -top-2 -right-8 w-16 h-8 rounded-full bg-blue-500/20 blur-xl animate-pulse"></div>
+          </div>
+          <p class="text-gray-500 text-sm sm:text-base font-light tracking-wide -mt-1">
+            Swipe for Hotties, vote for $CASH
+          </p>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="w-full flex-1 flex flex-col items-center justify-center py-6">
+          <div class="w-full max-w-md mx-auto relative">
+            <!-- Decorative elements -->
+            <div class="absolute -top-4 -left-4 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
+            
+            <!-- Image Card -->
+            <div id="image-card" class="image-card z-10 relative bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+              <div id="loading-spinner" class="animate-pulse flex flex-col items-center p-8">
+                <div class="h-32 w-32 bg-gray-200 rounded-full mb-4"></div>
+                <div class="h-4 bg-gray-200 rounded w-48 mb-2.5"></div>
+                <div class="h-3 bg-gray-200 rounded w-40"></div>
+              </div>
+              
+              <div id="card-content" class="hidden">
+                <div class="relative">
+                  <img 
+                    id="profile-image" 
+                    class="w-full h-[400px] object-cover"
+                    src=""
+                    alt="Profile Image" 
+                  />
+                  <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
+                    <h3 id="profile-name" class="text-2xl font-bold"></h3>
+                    <p id="profile-bio" class="text-sm opacity-90 mt-1"></p>
+                  </div>
+                </div>
+                
+                <div class="p-4 flex justify-between items-center">
+                  <button id="prev-button" class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500">
+                      <path d="m15 18-6-6 6-6"></path>
+                    </svg>
+                  </button>
+                  
+                  <button id="vote-button" class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-colors font-medium">
+                    Vote & Share
+                  </button>
+                  
+                  <button id="next-button" class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500">
+                      <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+                <div id="thank-you-message" class="thank-you-overlay hidden">
+                  Thank you for your vote!
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-8 text-center text-sm text-gray-500">
+              <p>Swipe or use arrow keys to navigate</p>
+            </div>
+          </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="w-full mt-12 py-8 px-4 flex flex-col items-center justify-center gap-4 bg-gray-100/50 backdrop-blur-sm">
+          <div class="flex items-center justify-center">
+            <img 
+              class="w-28 sm:w-32 object-contain transform transition-transform hover:scale-105" 
+              src="phukk-me-logo.png" 
+              alt="Phukk Me Logo"
+              onerror="this.onerror=null; this.src='https://placehold.co/200x80?text=Phukk+Me'"
+            />
+          </div>
+          
+          <p class="text-gray-500 text-center max-w-md">
+            Each vote earns 10 entries to the $10,000 Giveaway
+          </p>
+          
+          <div class="flex flex-row space-x-3 w-full justify-center">
+            <a 
+              href="https://fkitt.com/token/buy" 
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex-1 max-w-36 px-4 py-2 bg-blue-500 text-white text-center rounded-md hover:bg-blue-600 transition-colors text-sm font-medium"
+            >
+              BUY $FKITT
+            </a>
+            
+            <a 
+              href="https://fkitt.com" 
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex-1 max-w-36 px-4 py-2 bg-blue-500 text-white text-center rounded-md hover:bg-blue-600 transition-colors text-sm font-medium"
+            >
+              JOIN FKITT
+            </a>
+          </div>
+          
+          <div class="flex space-x-4 mt-1">
+            <a 
+              href="https://x.com/fkittcom" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="p-1 rounded-full hover:bg-gray-200 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500 hover:text-blue-500">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+              </svg>
+            </a>
+            <a 
+              href="https://t.me/fkittt" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="p-1 rounded-full hover:bg-gray-200 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500 hover:text-blue-500">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+            </a>
+          </div>
+          
+          <a 
+            href="https://fkitt.com/giveaway" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-blue-500 hover:text-blue-600 font-medium text-sm transition-colors mt-2"
+          >
+            JOIN THE $10,000 GIVEAWAY
+          </a>
+          
+          <p class="text-xs text-gray-400 mt-4">
+            © <span id="current-year"></span> Phukk Me. All rights reserved.
+          </p>
+        </footer>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      // Image data from imageData.ts converted to plain JavaScript
+      const imageUrls = [
+        "https://fkitt.shop/pics/1.jpg",
+        "https://fkitt.shop/pics/2.jpg",
+        "https://fkitt.shop/pics/3.jpg",
+        "https://fkitt.shop/pics/4.jpg",
+        "https://fkitt.shop/pics/5.jpg",
+        "https://fkitt.shop/pics/6.jpg",
+        "https://fkitt.shop/pics/7.jpg",
+        "https://fkitt.shop/pics/8.jpg",
+        "https://fkitt.shop/pics/9.jpg",
+        "https://fkitt.shop/pics/10.jpeg",
+        "https://fkitt.shop/pics/11.jpg",
+        "https://fkitt.shop/pics/12.jpg",
+        "https://fkitt.shop/pics/13.jpg",
+        "https://fkitt.shop/pics/14.jpg",
+        "https://fkitt.shop/pics/15.jpg",
+        "https://fkitt.shop/pics/16.jpg",
+        "https://fkitt.shop/pics/17.jpg",
+        "https://fkitt.shop/pics/18.jpeg",
+        "https://fkitt.shop/pics/19.jpeg",
+        "https://fkitt.shop/pics/20.jpg",
+        "https://fkitt.shop/pics/21.jpg",
+        "https://fkitt.shop/pics/22.jpg",
+        "https://fkitt.shop/pics/23.jpg",
+        "https://fkitt.shop/pics/24.jpeg",
+        "https://fkitt.shop/pics/25.jpg",
+        "https://fkitt.shop/pics/26.jpg",
+        "https://fkitt.shop/pics/27.jpg",
+        "https://fkitt.shop/pics/28.jpg",
+        "https://fkitt.shop/pics/29.jpg",
+        "https://fkitt.shop/pics/30.jpg",
+        "https://fkitt.shop/pics/31.jpg",
+        "https://fkitt.shop/pics/32.jpg",
+        "https://fkitt.shop/pics/33.jpg",
+        "https://fkitt.shop/pics/34.jpg",
+        "https://fkitt.shop/pics/35.jpg",
+        "https://fkitt.shop/pics/36.png",
+        "https://fkitt.shop/pics/37.webp",
+        "https://fkitt.shop/pics/38.webp",
+        "https://fkitt.shop/pics/39.webp",
+        "https://fkitt.shop/pics/40.webp",
+        "https://fkitt.shop/pics/41.webp",
+        "https://fkitt.shop/pics/42.webp",
+        "https://fkitt.shop/pics/43.webp",
+        "https://fkitt.shop/pics/44.webp",
+        "https://fkitt.shop/pics/45.webp",
+        "https://fkitt.shop/pics/46.webp",
+        "https://fkitt.shop/pics/47.webp",
+        "https://fkitt.shop/pics/48.webp",
+        "https://fkitt.shop/pics/49.webp",
+        "https://fkitt.shop/pics/50.webp",
+        "https://fkitt.shop/pics/51.webp",
+        "https://fkitt.shop/pics/52.webp",
+        "https://fkitt.shop/pics/53.webp",
+        "https://fkitt.shop/pics/54.webp",
+        "https://fkitt.shop/pics/55.webp",
+        "https://fkitt.shop/pics/56.webp",
+        "https://fkitt.shop/pics/57.webp",
+        "https://fkitt.shop/pics/58.webp",
+        "https://fkitt.shop/pics/59.webp",
+        "https://fkitt.shop/pics/60.webp",
+        "https://fkitt.shop/pics/61.webp",
+        "https://fkitt.shop/pics/62.webp",
+      ];
+
+      // Bios
+      const bios = [
+        "Looking for someone to appreciate my... assets. HODL or GTFO.",
+        "My love language is Titcoin tips. Send first, ask later.",
+        "Swipe right if you believe in the breast tek revolution.",
+        "Degen in the streets, whale in the sheets.",
+        "If it's not about Titcoin, I'm not interested.",
+        "Too big to fail. LFG.",
+        "Country roads, take me to liquidity.",
+        "Swiping right is bullish. Let's pump together.",
+        "Make me your next moonshot, baby.",
+        "My portfolio is as inflated as these assets."
+      ];
+
+      // Shuffle array function
+      function shuffleArray(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+      }
+
+      // Twitter share text
+      function getTwitterShareText() {
+        return `I'm voting for a hottie on Phukk Me! Each free vote earns 10 entries to the $10,000 GIVEAWAY. 
+
+Join now: https://phukk.me or join @fkittcom for info!
+#fkitt $fkitt #PhukkMe`;
+      }
+
+      // App state
+      let currentIndex = 0;
+      let profiles = [];
+      let isTransitioning = false;
+      let touchStartX = null;
+      let direction = null;
+
+      // DOM elements
+      const imageCard = document.getElementById('image-card');
+      const cardContent = document.getElementById('card-content');
+      const loadingSpinner = document.getElementById('loading-spinner');
+      const profileImage = document.getElementById('profile-image');
+      const profileName = document.getElementById('profile-name');
+      const profileBio = document.getElementById('profile-bio');
+      const prevButton = document.getElementById('prev-button');
+      const nextButton = document.getElementById('next-button');
+      const voteButton = document.getElementById('vote-button');
+      const thankYouMessage = document.getElementById('thank-you-message');
+      const currentYearElement = document.getElementById('current-year');
+
+      // Initialize the app
+      function initApp() {
+        // Set current year in footer
+        currentYearElement.textContent = new Date().getFullYear();
+        
+        // Create profiles from shuffled images
+        const shuffledImages = shuffleArray(imageUrls);
+        profiles = shuffledImages.map((image, index) => ({
+          id: index + 1,
+          name: "A Hottie",
+          image,
+          bio: bios[Math.floor(Math.random() * bios.length)]
+        }));
+        
+        // Load first profile
+        loadProfile(profiles[currentIndex]);
+        
+        // Add event listeners
+        prevButton.addEventListener('click', prevProfile);
+        nextButton.addEventListener('click', nextProfile);
+        voteButton.addEventListener('click', handleVote);
+        
+        // Touch events for swiping
+        imageCard.addEventListener('touchstart', handleTouchStart);
+        imageCard.addEventListener('touchend', handleTouchEnd);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', handleKeyDown);
+      }
+      
+      // Load profile data
+      function loadProfile(profile) {
+        if (!profile) return;
+        
+        // Show loading spinner while image loads
+        cardContent.classList.add('hidden');
+        loadingSpinner.classList.remove('hidden');
+        
+        // Preload the image
+        const img = new Image();
+        img.onload = function() {
+          // Once image is loaded, show the content
+          profileImage.src = profile.image;
+          profileName.textContent = profile.name;
+          profileBio.textContent = profile.bio;
+          
+          loadingSpinner.classList.add('hidden');
+          cardContent.classList.remove('hidden');
+        };
+        img.onerror = function() {
+          // If image fails to load, use a placeholder
+          profileImage.src = 'https://placehold.co/400x400?text=Image+Not+Found';
+          profileName.textContent = profile.name;
+          profileBio.textContent = profile.bio;
+          
+          loadingSpinner.classList.add('hidden');
+          cardContent.classList.remove('hidden');
+        };
+        img.src = profile.image;
+      }
+      
+      // Navigation functions
+      function nextProfile() {
+        if (isTransitioning) return;
+        
+        isTransitioning = true;
+        direction = 'left';
+        
+        // Add animation class
+        imageCard.classList.add('swipe-left');
+        
+        // After animation completes, load next profile
+        setTimeout(() => {
+          currentIndex = (currentIndex + 1) % profiles.length;
+          loadProfile(profiles[currentIndex]);
+          imageCard.classList.remove('swipe-left');
+          isTransitioning = false;
+        }, 400);
+      }
+      
+      function prevProfile() {
+        if (isTransitioning) return;
+        
+        isTransitioning = true;
+        direction = 'right';
+        
+        // Add animation class
+        imageCard.classList.add('swipe-right');
+        
+        // After animation completes, load previous profile
+        setTimeout(() => {
+          currentIndex = (currentIndex - 1 + profiles.length) % profiles.length;
+          loadProfile(profiles[currentIndex]);
+          imageCard.classList.remove('swipe-right');
+          isTransitioning = false;
+        }, 400);
+      }
+      
+      // Handle vote
+      function handleVote() {
+        const tweetText = encodeURIComponent(getTwitterShareText());
+        window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
+        
+        // Show thank you message
+        thankYouMessage.classList.remove('hidden');
+        setTimeout(() => {
+          thankYouMessage.classList.add('hidden');
+        }, 2000);
+      }
+      
+      // Touch handlers
+      function handleTouchStart(e) {
+        touchStartX = e.touches[0].clientX;
+      }
+      
+      function handleTouchEnd(e) {
+        if (touchStartX === null) return;
+        
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        
+        // If swipe distance is significant enough
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            nextProfile();
+          } else {
+            prevProfile();
+          }
+        }
+        
+        touchStartX = null;
+      }
+      
+      // Keyboard navigation
+      function handleKeyDown(e) {
+        if (e.key === 'ArrowRight') {
+          nextProfile();
+        } else if (e.key === 'ArrowLeft') {
+          prevProfile();
+        }
+      }
+      
+      // Start the app
+      document.addEventListener('DOMContentLoaded', initApp);
+    </script>
   </body>
 </html>
