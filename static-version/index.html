@@ -1,0 +1,650 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phukk Me - Vote for Hotties</title>
+  <style>
+    /* Base styles */
+    :root {
+      --background: #fafafa;
+      --foreground: #0f1724;
+      --primary: #0d6efd;
+      --primary-foreground: #ffffff;
+      --secondary: #f4f7fc;
+      --secondary-foreground: #1f3659;
+      --muted: #f4f7fc;
+      --muted-foreground: #667085;
+      --border: #e5e9ef;
+      --radius: 0.75rem;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Layout */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .flex {
+      display: flex;
+    }
+    
+    .flex-col {
+      flex-direction: column;
+    }
+    
+    .items-center {
+      align-items: center;
+    }
+    
+    .justify-center {
+      justify-content: center;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-6 { margin-top: 1.5rem; }
+    .mt-8 { margin-top: 2rem; }
+    .mt-12 { margin-top: 3rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    
+    .w-full { width: 100%; }
+    .max-w-md { max-width: 28rem; }
+    .max-w-xs { max-width: 20rem; }
+    .max-w-36 { max-width: 9rem; }
+    
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .z-10 { z-index: 10; }
+    
+    /* Header */
+    .header {
+      padding: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .header img {
+      max-width: 200px;
+      height: auto;
+    }
+    
+    /* Image Card */
+    .image-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+      width: 100%;
+      max-width: 28rem;
+      margin: 0 auto;
+      transition: transform 0.3s ease;
+      min-height: 540px;
+    }
+    
+    .card-image-container {
+      width: 100%;
+      padding-bottom: 125%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .card-image:hover {
+      transform: scale(1.05);
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+    }
+    
+    .card-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .card-bio {
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    
+    .navigation-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      z-index: 20;
+    }
+    
+    .nav-area {
+      width: 50%;
+      height: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .nav-area:hover {
+      opacity: 0.1;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    .left-nav {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
+    }
+    
+    .right-nav {
+      background: linear-gradient(to left, rgba(0,0,0,0.3), transparent);
+    }
+    
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+    
+    .btn-primary:hover {
+      background-color: #0b5ed7;
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--foreground);
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--secondary);
+    }
+    
+    /* Thank you overlay */
+    .thank-you-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .thank-you-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .thank-you-overlay h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    
+    .thank-you-overlay p {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      max-width: 80%;
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: 3rem;
+      padding: 2rem 1rem;
+      background-color: rgba(248, 249, 250, 0.5);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .footer img {
+      width: 7rem;
+      height: auto;
+      object-fit: contain;
+      transition: transform 0.3s;
+    }
+    
+    .footer img:hover {
+      transform: scale(1.05);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.25rem;
+    }
+    
+    .social-link {
+      padding: 0.25rem;
+      border-radius: 9999px;
+      transition: background-color 0.2s;
+      color: var(--muted-foreground);
+    }
+    
+    .social-link:hover {
+      background-color: var(--secondary);
+      color: var(--primary);
+    }
+
+    .text-xs { font-size: 0.75rem; }
+    .text-sm { font-size: 0.875rem; }
+    .text-muted { color: var(--muted-foreground); }
+    .animate-fade-in { animation: fade-in 0.5s ease; }
+    
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @media (max-width: 640px) {
+      .header img { max-width: 150px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container flex flex-col items-center">
+    <!-- Header -->
+    <header class="header">
+      <img src="https://lovable-uploads.s3.amazonaws.com/63336976-dd12-41f9-ba26-280abe5a6fbf.png" alt="Phukk Me Logo">
+    </header>
+    
+    <!-- Main Content -->
+    <main class="w-full flex-1 flex flex-col items-center justify-center py-6">
+      <div class="w-full max-w-md mx-auto relative">
+        <!-- Decorative elements -->
+        <div class="absolute" style="top: -1rem; left: -1rem; width: 6rem; height: 6rem; background-color: rgba(13, 110, 253, 0.05); border-radius: 50%; filter: blur(1rem);"></div>
+        <div class="absolute" style="bottom: -1rem; right: -1rem; width: 8rem; height: 8rem; background-color: rgba(13, 110, 253, 0.1); border-radius: 50%; filter: blur(1.5rem);"></div>
+        
+        <div class="image-card z-10 relative" id="imageCard">
+          <div class="navigation-overlay">
+            <div class="nav-area left-nav" id="prevBtn"></div>
+            <div class="nav-area right-nav" id="nextBtn"></div>
+          </div>
+          
+          <div class="card-image-container">
+            <img id="profileImage" class="card-image" src="" alt="Profile Image">
+          </div>
+          
+          <div class="card-content">
+            <h3 class="card-name" id="profileName">Loading...</h3>
+            <p class="card-bio" id="profileBio">Loading...</p>
+            
+            <div class="card-actions">
+              <button class="btn btn-outline" id="skipBtn">Skip</button>
+              <button class="btn btn-primary" id="voteBtn">Vote</button>
+              <button class="btn btn-outline" id="tweetBtn">Tweet</button>
+            </div>
+          </div>
+          
+          <div class="thank-you-overlay" id="thankYouOverlay">
+            <h2>Thank You!</h2>
+            <p>Your vote has been counted. You've earned 10 entries to the $10,000 giveaway!</p>
+            <button class="btn btn-primary" id="continueBtn">Continue</button>
+          </div>
+        </div>
+        
+        <div class="mt-8 text-center text-sm text-muted">
+          <p>Swipe or use arrow keys to navigate</p>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer w-full animate-fade-in">
+      <div>
+        <img src="https://lovable-uploads.s3.amazonaws.com/63336976-dd12-41f9-ba26-280abe5a6fbf.png" alt="Phukk Me Logo">
+      </div>
+      
+      <p class="text-sm text-muted text-center max-w-md">
+        Each vote earns 10 entries to the $10,000 Giveaway
+      </p>
+      
+      <div class="flex space-x-3 w-full justify-center">
+        <a href="https://fkitt.com/token/buy" target="_blank" rel="noopener noreferrer" class="btn btn-primary max-w-36">
+          BUY $FKITT
+        </a>
+        
+        <a href="https://fkitt.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary max-w-36">
+          JOIN FKITT
+        </a>
+      </div>
+      
+      <div class="social-links">
+        <a href="https://x.com/fkittcom" target="_blank" rel="noopener noreferrer" class="social-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+        </a>
+        <a href="https://t.me/fkittt" target="_blank" rel="noopener noreferrer" class="social-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3 2 10l7 3 4 9 3-8 6-1-9-8"></path><path d="m10 15 5-5"></path></svg>
+        </a>
+      </div>
+      
+      <a href="https://fkitt.com/giveaway" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 font-medium text-sm mt-2">
+        JOIN THE $10,000 GIVEAWAY
+      </a>
+      
+      <p class="text-xs text-muted mt-4">
+        © 2024 Phukk Me. All rights reserved.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Image profiles data
+    const imageUrls = [
+      "https://fkitt.shop/pics/1.jpg",
+      "https://fkitt.shop/pics/2.jpg",
+      "https://fkitt.shop/pics/3.jpg",
+      "https://fkitt.shop/pics/4.jpg",
+      "https://fkitt.shop/pics/5.jpg",
+      "https://fkitt.shop/pics/6.jpg",
+      "https://fkitt.shop/pics/7.jpg",
+      "https://fkitt.shop/pics/8.jpg",
+      "https://fkitt.shop/pics/9.jpg",
+      "https://fkitt.shop/pics/10.jpeg",
+      "https://fkitt.shop/pics/11.jpg",
+      "https://fkitt.shop/pics/12.jpg",
+      "https://fkitt.shop/pics/13.jpg",
+      "https://fkitt.shop/pics/14.jpg",
+      "https://fkitt.shop/pics/15.jpg",
+      "https://fkitt.shop/pics/16.jpg",
+      "https://fkitt.shop/pics/17.jpg",
+      "https://fkitt.shop/pics/18.jpeg",
+      "https://fkitt.shop/pics/19.jpeg",
+      "https://fkitt.shop/pics/20.jpg",
+      "https://fkitt.shop/pics/21.jpg",
+      "https://fkitt.shop/pics/22.jpg",
+      "https://fkitt.shop/pics/23.jpg",
+      "https://fkitt.shop/pics/24.jpeg",
+      "https://fkitt.shop/pics/25.jpg",
+      "https://fkitt.shop/pics/26.jpg",
+      "https://fkitt.shop/pics/27.jpg",
+      "https://fkitt.shop/pics/28.jpg",
+      "https://fkitt.shop/pics/29.jpg",
+      "https://fkitt.shop/pics/30.jpg",
+      "https://fkitt.shop/pics/31.jpg",
+      "https://fkitt.shop/pics/32.jpg",
+      "https://fkitt.shop/pics/33.jpg",
+      "https://fkitt.shop/pics/34.jpg",
+      "https://fkitt.shop/pics/35.jpg",
+      "https://fkitt.shop/pics/36.png",
+      "https://fkitt.shop/pics/37.webp",
+      "https://fkitt.shop/pics/38.webp",
+      "https://fkitt.shop/pics/39.webp",
+      "https://fkitt.shop/pics/40.webp",
+      "https://fkitt.shop/pics/41.webp",
+      "https://fkitt.shop/pics/42.webp",
+      "https://fkitt.shop/pics/43.webp",
+      "https://fkitt.shop/pics/44.webp",
+      "https://fkitt.shop/pics/45.webp",
+      "https://fkitt.shop/pics/46.webp",
+      "https://fkitt.shop/pics/47.webp",
+      "https://fkitt.shop/pics/48.webp",
+      "https://fkitt.shop/pics/49.webp",
+      "https://fkitt.shop/pics/50.webp",
+      "https://fkitt.shop/pics/51.webp",
+      "https://fkitt.shop/pics/52.webp",
+      "https://fkitt.shop/pics/53.webp",
+      "https://fkitt.shop/pics/54.webp",
+      "https://fkitt.shop/pics/55.webp",
+      "https://fkitt.shop/pics/56.webp",
+      "https://fkitt.shop/pics/57.webp",
+      "https://fkitt.shop/pics/58.webp",
+      "https://fkitt.shop/pics/59.webp",
+      "https://fkitt.shop/pics/60.webp",
+      "https://fkitt.shop/pics/61.webp",
+      "https://fkitt.shop/pics/62.webp",
+    ];
+    
+    const bios = [
+      "Looking for someone to appreciate my... assets. HODL or GTFO.",
+      "My love language is Titcoin tips. Send first, ask later.",
+      "Swipe right if you believe in the breast tek revolution.",
+      "Degen in the streets, whale in the sheets.",
+      "If it's not about Titcoin, I'm not interested.",
+      "Too big to fail. LFG.",
+      "Country roads, take me to liquidity.",
+      "Swiping right is bullish. Let's pump together.",
+      "Make me your next moonshot, baby.",
+      "My portfolio is as inflated as these assets."
+    ];
+    
+    // Fisher-Yates shuffle algorithm
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+    
+    function getRandomBio() {
+      return bios[Math.floor(Math.random() * bios.length)];
+    }
+    
+    // Create shuffled profiles
+    const shuffledImageUrls = shuffleArray(imageUrls);
+    const profiles = shuffledImageUrls.map((image, index) => ({
+      id: index + 1,
+      name: "A Hottie",
+      image,
+      bio: getRandomBio(),
+    }));
+    
+    // App state
+    let currentIndex = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isTransitioning = false;
+    
+    // DOM elements
+    const profileImage = document.getElementById('profileImage');
+    const profileName = document.getElementById('profileName');
+    const profileBio = document.getElementById('profileBio');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const voteBtn = document.getElementById('voteBtn');
+    const tweetBtn = document.getElementById('tweetBtn');
+    const thankYouOverlay = document.getElementById('thankYouOverlay');
+    const continueBtn = document.getElementById('continueBtn');
+    
+    // Update the profile display
+    function updateProfile() {
+      if (isTransitioning) return;
+      
+      const profile = profiles[currentIndex];
+      isTransitioning = true;
+      
+      // Fade out
+      profileImage.style.opacity = '0';
+      profileName.textContent = 'Loading...';
+      profileBio.textContent = 'Loading...';
+      
+      setTimeout(() => {
+        // Update content
+        profileImage.src = profile.image;
+        profileName.textContent = profile.name;
+        profileBio.textContent = profile.bio;
+        
+        // Image onload handler to fade in when loaded
+        profileImage.onload = () => {
+          profileImage.style.opacity = '1';
+          isTransitioning = false;
+        };
+        
+        // Fallback in case image load fails
+        setTimeout(() => {
+          if (isTransitioning) {
+            profileImage.style.opacity = '1';
+            isTransitioning = false;
+          }
+        }, 1000);
+      }, 300);
+    }
+    
+    // Navigate to next profile
+    function nextProfile() {
+      if (isTransitioning) return;
+      currentIndex = (currentIndex + 1) % profiles.length;
+      updateProfile();
+    }
+    
+    // Navigate to previous profile
+    function prevProfile() {
+      if (isTransitioning) return;
+      currentIndex = (currentIndex - 1 + profiles.length) % profiles.length;
+      updateProfile();
+    }
+    
+    // Handle voting
+    function handleVote() {
+      if (isTransitioning) return;
+      thankYouOverlay.classList.add('visible');
+      
+      // Track vote if Analytics is available
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'vote', {
+          profile_id: profiles[currentIndex].id
+        });
+      }
+    }
+    
+    // Tweet functionality
+    function handleTweet() {
+      const tweetText = `I'm voting for a hottie on Phukk Me! Each free vote earns 10 entries to the $10,000 GIVEAWAY. 
+
+Join now: https://phukk.me or join @fkittcom for info!
+#fkitt $fkitt #PhukkMe`;
+      
+      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+      window.open(tweetUrl, '_blank');
+    }
+    
+    // Touch handling for swipe
+    function handleTouchStart(e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }
+    
+    function handleTouchEnd(e) {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }
+    
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        nextProfile(); // Swipe left
+      }
+      if (touchEndX > touchStartX + swipeThreshold) {
+        prevProfile(); // Swipe right
+      }
+    }
+    
+    // Keyboard navigation
+    function handleKeyDown(e) {
+      if (e.key === 'ArrowLeft') {
+        prevProfile();
+      } else if (e.key === 'ArrowRight') {
+        nextProfile();
+      }
+    }
+    
+    // Event listeners
+    prevBtn.addEventListener('click', prevProfile);
+    nextBtn.addEventListener('click', nextProfile);
+    skipBtn.addEventListener('click', nextProfile);
+    voteBtn.addEventListener('click', handleVote);
+    tweetBtn.addEventListener('click', handleTweet);
+    continueBtn.addEventListener('click', () => {
+      thankYouOverlay.classList.remove('visible');
+      nextProfile();
+    });
+    
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('touchstart', handleTouchStart, false);
+    document.addEventListener('touchend', handleTouchEnd, false);
+    
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      updateProfile();
+    });
+  </script>
+</body>
+</html>
