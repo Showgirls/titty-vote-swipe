@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,18 +136,6 @@
       padding: 1.5rem;
     }
     
-    .card-name {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-    
-    .card-bio {
-      color: var(--muted-foreground);
-      font-size: 0.875rem;
-      line-height: 1.5;
-    }
-    
     .navigation-overlay {
       position: absolute;
       top: 0;
@@ -185,8 +174,6 @@
       display: flex;
       justify-content: space-between;
       margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
     }
     
     /* Buttons */
@@ -341,9 +328,6 @@
           </div>
           
           <div class="card-content">
-            <h3 class="card-name" id="profileName">Loading...</h3>
-            <p class="card-bio" id="profileBio">Loading...</p>
-            
             <div class="card-actions">
               <button class="btn btn-outline" id="skipBtn">Skip</button>
               <button class="btn btn-primary" id="voteBtn">Vote</button>
@@ -470,19 +454,6 @@
       "https://fkitt.shop/pics/62.webp",
     ];
     
-    const bios = [
-      "Looking for someone to appreciate my... assets. HODL or GTFO.",
-      "My love language is Titcoin tips. Send first, ask later.",
-      "Swipe right if you believe in the breast tek revolution.",
-      "Degen in the streets, whale in the sheets.",
-      "If it's not about Titcoin, I'm not interested.",
-      "Too big to fail. LFG.",
-      "Country roads, take me to liquidity.",
-      "Swiping right is bullish. Let's pump together.",
-      "Make me your next moonshot, baby.",
-      "My portfolio is as inflated as these assets."
-    ];
-    
     // Fisher-Yates shuffle algorithm
     function shuffleArray(array) {
       const newArray = [...array];
@@ -493,17 +464,11 @@
       return newArray;
     }
     
-    function getRandomBio() {
-      return bios[Math.floor(Math.random() * bios.length)];
-    }
-    
     // Create shuffled profiles
     const shuffledImageUrls = shuffleArray(imageUrls);
     const profiles = shuffledImageUrls.map((image, index) => ({
       id: index + 1,
-      name: "A Hottie",
-      image,
-      bio: getRandomBio(),
+      image
     }));
     
     // App state
@@ -514,8 +479,6 @@
     
     // DOM elements
     const profileImage = document.getElementById('profileImage');
-    const profileName = document.getElementById('profileName');
-    const profileBio = document.getElementById('profileBio');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const skipBtn = document.getElementById('skipBtn');
@@ -533,14 +496,10 @@
       
       // Fade out
       profileImage.style.opacity = '0';
-      profileName.textContent = 'Loading...';
-      profileBio.textContent = 'Loading...';
       
       setTimeout(() => {
         // Update content
         profileImage.src = profile.image;
-        profileName.textContent = profile.name;
-        profileBio.textContent = profile.bio;
         
         // Image onload handler to fade in when loaded
         profileImage.onload = () => {
