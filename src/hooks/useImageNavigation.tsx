@@ -14,6 +14,21 @@ export function useImageNavigation() {
   // Load profile based on current index
   useEffect(() => {
     setCurrentProfile(profiles[currentIndex]);
+    
+    // Preload next and previous images
+    const preloadImages = () => {
+      const nextIndex = (currentIndex + 1) % profiles.length;
+      const prevIndex = (currentIndex - 1 + profiles.length) % profiles.length;
+      
+      // Create new Image objects to preload both next and previous images
+      const nextImage = new Image();
+      nextImage.src = profiles[nextIndex].image;
+      
+      const prevImage = new Image();
+      prevImage.src = profiles[prevIndex].image;
+    };
+    
+    preloadImages();
   }, [currentIndex]);
 
   // Handle next profile
@@ -26,7 +41,7 @@ export function useImageNavigation() {
     setTimeout(() => {
       setCurrentIndex(prevIndex => (prevIndex + 1) % profiles.length);
       setIsTransitioning(false);
-    }, 400);
+    }, 300); // Reduced from 400ms to 300ms for faster transitions
   }, [isTransitioning, profiles.length]);
 
   // Handle previous profile
@@ -39,7 +54,7 @@ export function useImageNavigation() {
     setTimeout(() => {
       setCurrentIndex(prevIndex => (prevIndex - 1 + profiles.length) % profiles.length);
       setIsTransitioning(false);
-    }, 400);
+    }, 300); // Reduced from 400ms to 300ms for faster transitions
   }, [isTransitioning, profiles.length]);
 
   // Handle vote

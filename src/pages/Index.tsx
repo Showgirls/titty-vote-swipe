@@ -4,6 +4,7 @@ import { useImageNavigation } from '@/hooks/useImageNavigation';
 import ImageCard from '@/components/ImageCard';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { preloadImages } from '@/lib/imageData';
 
 const Index = () => {
   const {
@@ -17,6 +18,11 @@ const Index = () => {
     handleTouchEnd,
     showThankYou
   } = useImageNavigation();
+
+  // Preload images when the component mounts
+  useEffect(() => {
+    preloadImages();
+  }, []);
 
   // Google Analytics tracking
   useEffect(() => {

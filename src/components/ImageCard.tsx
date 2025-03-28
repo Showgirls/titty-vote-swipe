@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { ImageProfile } from '@/lib/imageData';
@@ -31,11 +30,27 @@ const ImageCard: React.FC<ImageCardProps> = ({
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageUrl, setImageUrl] = useState(profile.image);
+  const [prevImage, setPrevImage] = useState<string | null>(null);
   
-  // Update image when profile changes
+  // Cache the previous image to avoid showing blank during transitions
   useEffect(() => {
+    if (imageLoaded) {
+      setPrevImage(imageUrl);
+    }
+    
     setImageLoaded(false);
     setImageUrl(profile.image);
+    
+    // Preload the current image
+    const img = new Image();
+    img.src = profile.image;
+    img.onload = () => {
+      setImageLoaded(true);
+    };
+    
+    return () => {
+      img.onload = null;
+    };
   }, [profile]);
 
   // Get animation classes based on transition state
@@ -45,6 +60,15 @@ const ImageCard: React.FC<ImageCardProps> = ({
     return direction === 'left'
       ? 'animate-slide-out'
       : 'animate-slide-in';
+  };
+  
+  const errorHandler = () => {
+    console.log("Image failed to load:", imageUrl);
+    // Keep showing the previous image if the current one fails
+    if (prevImage) {
+      setImageUrl(prevImage);
+      setImageLoaded(true);
+    }
   };
 
   return (
@@ -83,8 +107,9 @@ const ImageCard: React.FC<ImageCardProps> = ({
         </div>
       </div>
 
-      {/* Image */}
+      {/* Image Container */}
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted/30">
+        {/* Loading UI */}
         {!imageLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-muted/30 animate-pulse-soft">
             <svg className="w-12 h-12 text-muted-foreground/30" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -94,14 +119,27 @@ const ImageCard: React.FC<ImageCardProps> = ({
             </svg>
           </div>
         )}
+        
+        {/* Show the previous image while loading the new one (to avoid blank state) */}
+        {!imageLoaded && prevImage && (
+          <img
+            src={prevImage}
+            alt="Previous hottie"
+            className="w-full h-full object-cover absolute inset-0 opacity-50"
+          />
+        )}
+        
+        {/* Current image */}
         <img
           src={imageUrl}
           alt="A hottie"
           className={cn(
-            "w-full h-full object-cover transition-all duration-500",
+            "w-full h-full object-cover transition-all duration-300",
             imageLoaded ? "opacity-100" : "opacity-0",
           )}
           onLoad={() => setImageLoaded(true)}
+          onError={errorHandler}
+          loading="eager" // Force eager loading instead of lazy loading
         />
       </div>
       

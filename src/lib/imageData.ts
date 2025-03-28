@@ -93,6 +93,18 @@ export const profiles: ImageProfile[] = shuffledImageUrls.map((image, index) => 
   bio: getRandomBio(),
 }));
 
+// Preload the first few images to improve initial load performance
+export const preloadImages = () => {
+  // Preload first 5 images
+  profiles.slice(0, 5).forEach(profile => {
+    const img = new Image();
+    img.src = profile.image;
+  });
+};
+
+// Run preload on module load
+preloadImages();
+
 // Array of different bios to choose from randomly
 function getRandomBio(): string {
   const bios = [
