@@ -18,6 +18,10 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
             src="/lovable-uploads/63336976-dd12-41f9-ba26-280abe5a6fbf.png" 
             alt="Phukk Me Logo" 
             className="h-16 sm:h-20 object-contain"
+            onError={(e) => {
+              console.error("Error loading header logo");
+              e.currentTarget.src = "https://fkitt.shop/logo.png";
+            }}
           />
         </div>
         <div className="absolute -top-2 -right-8 w-16 h-8 rounded-full bg-primary/20 blur-xl animate-pulse-soft"></div>
