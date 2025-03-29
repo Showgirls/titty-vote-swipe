@@ -6,7 +6,7 @@ export interface ImageProfile {
   bio: string;
 }
 
-// Create an array of all 62 image URLs
+// Create an array of all 80 image URLs
 const imageUrls = [
   "https://fkitt.shop/pics/1.jpg",
   "https://fkitt.shop/pics/2.jpg",
@@ -70,6 +70,24 @@ const imageUrls = [
   "https://fkitt.shop/pics/60.webp",
   "https://fkitt.shop/pics/61.webp",
   "https://fkitt.shop/pics/62.webp",
+  "https://fkitt.shop/pics/63.webp",
+  "https://fkitt.shop/pics/64.webp",
+  "https://fkitt.shop/pics/65.webp",
+  "https://fkitt.shop/pics/66.webp",
+  "https://fkitt.shop/pics/67.webp",
+  "https://fkitt.shop/pics/68.webp",
+  "https://fkitt.shop/pics/69.webp",
+  "https://fkitt.shop/pics/70.webp",
+  "https://fkitt.shop/pics/71.webp",
+  "https://fkitt.shop/pics/72.webp",
+  "https://fkitt.shop/pics/73.webp",
+  "https://fkitt.shop/pics/74.webp",
+  "https://fkitt.shop/pics/75.webp",
+  "https://fkitt.shop/pics/76.webp",
+  "https://fkitt.shop/pics/77.webp",
+  "https://fkitt.shop/pics/78.webp",
+  "https://fkitt.shop/pics/79.webp",
+  "https://fkitt.shop/pics/80.webp",
 ];
 
 // Fisher-Yates shuffle algorithm to randomize the array
