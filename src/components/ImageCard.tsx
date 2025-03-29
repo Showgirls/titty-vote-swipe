@@ -71,6 +71,12 @@ const ImageCard: React.FC<ImageCardProps> = ({
     }
   };
 
+  // Handle click on the image
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onNext();
+  };
+
   return (
     <div 
       className={cn(
@@ -84,31 +90,11 @@ const ImageCard: React.FC<ImageCardProps> = ({
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* Card Header with Navigation Hint */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-4 flex justify-between items-center glass">
-        <div 
-          className="w-8 h-8 flex items-center justify-center rounded-full bg-black/10 
-                    cursor-pointer hover:bg-black/20 transition-colors"
-          onClick={(e) => { e.stopPropagation(); onPrev(); }}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </div>
-        
-        <div 
-          className="w-8 h-8 flex items-center justify-center rounded-full bg-black/10 
-                    cursor-pointer hover:bg-black/20 transition-colors"
-          onClick={(e) => { e.stopPropagation(); onNext(); }}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </div>
-      </div>
-
       {/* Image Container */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted/30">
+      <div 
+        className="relative aspect-[3/4] w-full overflow-hidden bg-muted/30 cursor-pointer"
+        onClick={handleImageClick}
+      >
         {/* Loading UI */}
         {!imageLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-muted/30 animate-pulse-soft">

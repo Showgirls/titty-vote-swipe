@@ -71,7 +71,7 @@ const Index = () => {
             />
             
             <div className="mt-8 text-center text-sm text-muted-foreground">
-              <p>Swipe or use arrow keys to navigate</p>
+              <p>Swipe or tap image to navigate</p>
             </div>
           </div>
         </main>
